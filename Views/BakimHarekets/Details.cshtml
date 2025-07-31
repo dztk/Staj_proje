@@ -1,0 +1,51 @@
+﻿@model Proje.Models.BakimHareket
+
+@{
+    ViewData["Title"] = "Detaylar";
+}
+
+<h1>Detaylar</h1>
+
+<div>
+    <h4>Hareket Bakım</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">İş Emri</dt>
+        @* <dd class="col-sm-10">
+            @Model.IsEmri?.Tip -
+            @(Model.IsEmri?.Tip == Proje.Enums.IsEmriTipi.Arac
+                        ? Model.IsEmri?.Arac?.Plaka
+                        : Model.IsEmri?.Durak?.Ad) *@
+        <dd class="col-sm-10">
+            @(Model.IsEmri?.Tip == Proje.Enums.IsEmriTipi.Arac
+                        ? $"Araç - {Model.IsEmri?.Arac?.Plaka} / {Model.IsEmri?.Arac?.KapiNo}"
+                        : $"Durak - {Model.IsEmri?.Durak?.Ad} / {Model.IsEmri?.Durak?.Kod}")
+        </dd>
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.YapilanIslem)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.YapilanIslem)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tarih)
+        </dt>
+       @*  <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tarih)
+        </dd> *@
+        <dd class="col-sm-10">
+            @Model.Tarih.ToString("dd.MM.yyyy")
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Personel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Personel.AdSoyad)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Güncelle</a> |
+    <a asp-action="Index">Listeye Dön</a>
+</div>

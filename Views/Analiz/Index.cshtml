@@ -1,0 +1,112 @@
+﻿@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Raporlama Paneli";
+
+    var aracList = ViewBag.AracBakimMaliyetleri as IEnumerable<dynamic>;
+    var durakList = ViewBag.DurakBakimMaliyetleri as IEnumerable<dynamic>;
+}
+
+
+<div class="row">
+
+    <!-- Araç Bazlı Bakım Maliyeti -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                Araç Bazlı Toplam Bakım Maliyeti
+            </div>
+            <div class="card-body">
+                <canvas id="aracMaliyetChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Durak Bazlı Bakım Maliyeti -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                Durak Bazlı Toplam Bakım Maliyeti
+            </div>
+            <div class="card-body">
+                <canvas id="durakMaliyetChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- En Çok Arıza Yapan Araç -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                En Çok Arıza Yapan Araç
+            </div>
+            <div class="card-body">
+                <p class="fs-5 fw-bold">
+                    @ViewBag.EnCokArizaArac?.Arac (@ViewBag.EnCokArizaArac?.ArizaSayisi arıza)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- En Çok Arıza Yapan Durak -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                En Çok Arıza Yapan Durak
+            </div>
+            <div class="card-body">
+                <p class="fs-5 fw-bold">
+                    @ViewBag.EnCokArizaDurak?.Durak (@ViewBag.EnCokArizaDurak?.ArizaSayisi arıza)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- En Çok Değişen Parça -->
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                En Çok Değiştirilen Parça
+            </div>
+            <div class="card-body">
+                <p class="fs-5 fw-bold">
+                    @ViewBag.EnCokDegisenParca?.Parca (@ViewBag.EnCokDegisenParca?.ToplamAdet adet)
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const aracCtx = document.getElementById('aracMaliyetChart').getContext('2d');
+        const aracChart = new Chart(aracCtx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(JsonConvert.SerializeObject(aracList.Select(x => x.Arac))),
+                datasets: [{
+                    label: 'Bakım Maliyeti (₺)',
+                    data: @Html.Raw(JsonConvert.SerializeObject(aracList.Select(x => x.ToplamMaliyet))),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                }]
+            }
+        });
+
+        const durakCtx = document.getElementById('durakMaliyetChart').getContext('2d');
+        const durakChart = new Chart(durakCtx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(JsonConvert.SerializeObject(durakList.Select(x => x.Durak))),
+                datasets: [{
+                    label: 'Bakım Maliyeti (₺)',
+                    data: @Html.Raw(JsonConvert.SerializeObject(durakList.Select(x => x.ToplamMaliyet))),
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                }]
+            }
+        });
+    </script>
+
+
+}

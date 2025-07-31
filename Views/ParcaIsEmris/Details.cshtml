@@ -1,0 +1,51 @@
+﻿@model Proje.Models.ParcaIsEmri
+
+@{
+    ViewData["Title"] = "Detaylar";
+}
+
+<h1>Detaylar</h1>
+
+<div>
+    <h4>Parça-İş Emri</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Parça</dt>
+        <dd class="col-sm-10">@Model.Parca?.Ad</dd>
+
+        <dt class="col-sm-2">İş Emri</dt>
+        <dd class="col-sm-10">
+            @Model.IsEmri?.Tip -
+            @(Model.IsEmri?.Tip == Proje.Enums.IsEmriTipi.Arac
+                        ? Model.IsEmri?.Arac?.Plaka
+                        : Model.IsEmri?.Durak?.Ad)
+        </dd>
+
+        <dt class="col-sm-2">Miktar</dt>
+        <dd class="col-sm-10">@Model.Miktar</dd>
+
+        <dt class="col-sm-2">Birim Fiyat</dt>
+        <dd class="col-sm-10">@Model.BirimFiyat</dd>
+
+        <dt class="col-sm-2">Toplam Tutar</dt>
+        <dd class="col-sm-10">@Model.ToplamTutar</dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IscilikSuresiSaat)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IscilikSuresiSaat)
+        </dd>
+
+        <dt class="col-sm-2">Personel</dt>
+        <dd class="col-sm-10">@((Model.Personel != null && !string.IsNullOrEmpty(Model.Personel.AdSoyad)) ? Model.Personel.AdSoyad : "-")</dd>
+
+        @* <dt class="col-sm-2">Personel</dt>
+        <dd class>@(Model.Personel != null ? Model.Personel.AdSoyad : "Belirtilmedi")</dd> *@
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Güncelle</a> |
+    <a asp-action="Index">Listeye Dön</a>
+</div>

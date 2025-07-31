@@ -1,0 +1,19 @@
+﻿@model Proje.Models.IsEmri
+
+@{
+    ViewData["Title"] = "İmzalı PDF Yükle";
+}
+
+<h2>İmzalı PDF Yükle</h2>
+
+<form asp-action="ImzaPdfYukle" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label for="dosya">PDF Dosyası</label>
+        <input type="file" name="dosya" class="form-control" accept=".pdf" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Yükle</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Geri Dön</a>
+</form>

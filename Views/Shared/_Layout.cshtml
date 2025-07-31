@@ -1,0 +1,199 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Proje.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Proje</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+   
+@*     <link rel="stylesheet" href="https: //cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" />
+ *@
+
+    
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            padding-top: 70px;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .main-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .custom-navbar {
+            background-color: #0A4D8C !important;
+        }
+
+        .custom-btn-red {
+            background-color: #B2182B;
+            border-color: #B2182B;
+            color: white;
+        }
+
+            .custom-btn-red:hover {
+                background-color: #991522;
+                border-color: #991522;
+                color: white;
+            }
+    </style>
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+            <div class="container-fluid">
+                @* hamburger *@
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+
+                <!-- Giriş kontrolüyle Logo ve Yazı -->
+                @if (!SignInManager.IsSignedIn(User))
+                {
+                    <a class="navbar-brand d-flex align-items-center text-white" href="/">
+                        <img src="/images/site.png" width="60" height="60" class="me-2" />
+                        <span class="fw-bold">İETT | ARIZA TAKİP SİSTEMİ</span>
+                    </a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <img src="/images/site.png" width="60" height="60" alt="Logo" />
+                    </a>
+                }
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            @if (User.IsInRole("Şef"))
+                            {
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="IsEmris" asp-action="Index">GÖREVLER</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="BakimHarekets" asp-action="Index">BAKIMLAR</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="ParcaIsEmris" asp-action="Index">PARÇA KAYDI</a></li>
+                                <li class="nav-item"> <a class="nav-link text-white fw-bold" asp-controller="Analiz" asp-action="Index">RAPORLAR</a> </li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="Personels" asp-action="Index">PERSONEL</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="Aracs" asp-action="Index">ARAÇLAR</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="Durak" asp-action="Index">DURAKLAR</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="Parcas" asp-action="Index">PARÇALAR</a></li>
+                            }
+                            else if (User.IsInRole("Teknisyen"))
+                            {
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="IsEmris" asp-action="Index">GÖREVLER</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="BakimHarekets" asp-action="Index">BAKIMLAR</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="ParcaIsEmris" asp-action="Index">PARÇA KAYDI</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="Aracs" asp-action="Index">ARAÇLAR</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="Durak" asp-action="Index">DURAKLAR</a></li>
+                                <li class="nav-item"><a class="nav-link text-white fw-bold" asp-controller="Parcas" asp-action="Index">PARÇALAR</a></li>
+                            }
+                        </ul>
+
+                        <ul class="navbar-nav align-items-center">
+                            
+                            <li class="nav-item dropdown me-3">
+                                <a class="nav-link text-white position-relative" href="#" id="hatirlatmaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-envelope-fill" style="font-size: 2rem;"></i>
+                                    @if (ViewBag.HatirlatmaSayisi > 0)
+                                    {
+                                        @* <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> *@
+                                        <span class="position-absolute badge rounded-pill bg-danger"
+                                              style="top: 6px; left: 35px; font-size: 0.7rem; padding: 4px 6px;">
+                                            @ViewBag.HatirlatmaSayisi
+                                        </span>
+                                    }
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end shadow p-2" aria-labelledby="hatirlatmaDropdown" style="width: 300px; max-height: 400px; overflow-y: auto;">
+                                    @if (ViewBag.Hatirlatmalar != null && ViewBag.Hatirlatmalar.Count > 0)
+                                    {
+                                        foreach (var item in ViewBag.Hatirlatmalar as Dictionary<Proje.Models.IsEmri, string>)
+                                        {
+                                            <li class="small mb-2 text-wrap">
+                                                <i class="bi bi-exclamation-circle text-warning me-1"></i> @item.Value
+                                            </li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li class="text-muted small">Hatırlatma yok.</li>
+                                    }
+                                </ul>
+                            </li>
+
+                           
+                            <li class="nav-item">
+                                <form method="post" asp-area="Identity" asp-page="/Account/Logout">
+                                    <button type="submit" class="btn custom-btn-red">Çıkış Yap</button>
+                                </form>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item me-2">
+                                <a class="btn custom-btn-red" asp-area="Identity" asp-page="/Account/Login">Giriş Yap</a>
+                            </li>
+                           
+                        </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ANA GÖVDE -->
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+
+    <!-- SABİT FOOTER -->
+    <footer>
+        &copy; 2025 - Proje
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script> *@
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+  

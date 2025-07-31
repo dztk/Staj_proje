@@ -1,0 +1,55 @@
+﻿@model Proje.Models.IsEmri
+
+@{
+    ViewData["Title"] = "İş Emri Düzenle";
+    bool teknisyenMi = (bool)ViewBag.TeknisyenMi;
+}
+
+<h2>İş Emri Düzenle</h2>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+
+    @if (!teknisyenMi)
+    {
+        <div class="form-group">
+            <label asp-for="PersonelId" class="control-label"></label>
+            <select asp-for="PersonelId" class="form-control"
+                    asp-items="ViewBag.Personeller">
+                <option value="">-- Personel Seçin --</option>
+            </select>
+        </div>
+    }
+
+    @if (teknisyenMi)
+    {
+        <div class="form-group">
+            <label asp-for="Durum" class="control-label"></label>
+            <select asp-for="Durum" class="form-control"
+                    asp-items="ViewBag.Durumlar">
+                <option value="">-- Durum Seçin --</option>
+            </select>
+        </div>
+    }
+    else
+    {
+        <input type="hidden" asp-for="Durum" />
+    }
+
+    @if (!teknisyenMi)
+    {
+        <div class="form-group">
+            <label asp-for="Aciklama" class="control-label"></label>
+            <textarea asp-for="Aciklama" class="form-control"></textarea>
+            <span asp-validation-for="Aciklama" class="text-danger"></span>
+        </div>
+    }
+
+
+    <input type="hidden" asp-for="AcilisTarihi" />
+    <input type="hidden" asp-for="KapanisTarihi" />
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+</form>

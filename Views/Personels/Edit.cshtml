@@ -1,0 +1,46 @@
+﻿@model Proje.Models.Personel
+
+@{
+    ViewData["Title"] = "Düzenle";
+}
+
+<h1>Düzenle</h1>
+
+<h4>Personel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="AdSoyad" class="control-label"></label>
+                <input asp-for="AdSoyad" class="form-control" />
+                <span asp-validation-for="AdSoyad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Unvan" class="control-label"></label>
+                <input asp-for="Unvan" class="form-control" />
+                <span asp-validation-for="Unvan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KullaniciId" class="control-label"></label>
+                <input asp-for="KullaniciId" class="form-control" readonly />
+                <input asp-for="KullaniciId" type="hidden" />
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Listeye Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,50 @@
+﻿@model Proje.Models.ParcaIsEmri
+
+@{
+    ViewData["Title"] = "Ekle";
+}
+
+<h1>Ekle</h1>
+
+<h4>Parça-İş Emri</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
+            <div class="form-group">
+                <label asp-for="ParcaId" class="control-label"></label>
+                <select asp-for="ParcaId" class ="form-control" asp-items="ViewBag.ParcaId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsEmriId" class="control-label"></label>
+                <select asp-for="IsEmriId" class ="form-control" asp-items="ViewBag.IsEmriId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Miktar" class="control-label"></label>
+                <input asp-for="Miktar" class="form-control" />
+                <span asp-validation-for="Miktar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IscilikSuresiSaat" class="control-label"></label>
+                <input asp-for="IscilikSuresiSaat" class="form-control" />
+                <span asp-validation-for="IscilikSuresiSaat" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Ekle" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Listeye Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

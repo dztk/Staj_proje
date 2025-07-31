@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Proje.Models.Arac>
+
+@{
+    ViewData["Title"] = "Araçlar";
+}
+
+<h2 style="color: #0A4D8C;">Araçlar</h2>
+
+
+@if (!User.IsInRole("Teknisyen"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-light border border-success" style="color: #2ecc71; font-weight: bold;">
+            <i class="bi bi-plus-lg" style="font-weight: bold; color: #2ecc71;"></i> EKLE
+        </a>
+    </p>
+
+}
+<table class="table display">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Plaka)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KapiNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marka)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KM)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plaka)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KapiNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marka)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KM)
+            </td>
+                <td class="text-end">
+                    <div class="d-inline-flex align-items-center justify-content-end">
+                        @if (User.IsInRole("Şef"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Düzenle"
+                            style="color: #0d6efd; font-size: 18px; margin-left: 8px;">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" title="Detaylar"
+                               style="color: #0d6efd; font-size: 18px; margin-left: 8px;">
+                                <i class="bi bi-three-dots"></i>
+                            </a>
+                        @if (User.IsInRole("Şef"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" title="Sil"
+                               style="color: red; font-size: 18px; margin-left: 8px;">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        }
+                       
+                    </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesInit")
+}

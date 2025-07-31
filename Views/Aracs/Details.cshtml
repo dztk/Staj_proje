@@ -1,0 +1,54 @@
+﻿@model Proje.Models.Arac
+
+@{
+    ViewData["Title"] = "Detaylar";
+}
+
+<h1>Detaylar</h1>
+
+<div>
+    <h4>Araçlar</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Plaka)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Plaka)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.KapiNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.KapiNo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Marka)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Marka)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tip)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tip)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.KM)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.KM)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Listeye Dön</a>
+</div>

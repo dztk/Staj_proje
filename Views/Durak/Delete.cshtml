@@ -1,0 +1,16 @@
+﻿@model Proje.Models.Durak
+
+<h2>Durak Sil</h2>
+
+<div>
+    <p><strong>Ad:</strong> @Model.Ad</p>
+    <p><strong>Kod:</strong> @Model.Kod</p>
+    <p><strong>Enlem:</strong> @Model.KonumBilgi?.Enlem</p>
+    <p><strong>Boylam:</strong> @Model.KonumBilgi?.Boylam</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit">Sil</button>
+    <a asp-action="Index">İptal</a>
+</form>

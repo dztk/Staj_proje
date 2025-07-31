@@ -1,0 +1,73 @@
+﻿@* @model Dictionary<Proje.Models.IsEmri, string>
+
+@{
+    ViewData["Title"] = "Hatırlatmalar";
+}
+
+<h2>Hatırlatmalar</h2>
+
+@if (!Model.Any())
+{
+    <p>Şu anda hatırlatma gerektiren bir iş emri yok.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>İş Emri No</th>
+                <th>Tip</th>
+                <th>Araç / Durak</th>
+                <th>Açılış Tarihi</th>
+                <th>Durum</th>
+                <th>Hatırlatma</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pair in Model)
+            {
+                var item = pair.Key;
+                var mesaj = pair.Value;
+
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Tip</td>
+                    <td>
+                        @(item.Tip == Proje.Enums.IsEmriTipi.Arac
+                                        ? item.Arac?.Plaka + " / " + item.Arac?.KapiNo
+                                        : item.Durak?.Ad + " / " + item.Durak?.Kod)
+            </td>
+            <td>@item.AcilisTarihi.ToShortDateString()</td>
+            <td>@item.Durum</td>
+            <td>@mesaj</td>
+        </tr>
+                }
+        </tbody>
+    </table>
+} *@
+
+@model Dictionary<Proje.Models.IsEmri, string>
+
+@{
+    ViewData["Title"] = "Hatırlatmalar";
+}
+
+<h2>Hatırlatmalar</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-success">
+        Şu anda hatırlatma gerektiren bir iş emri yok.
+    </div>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var pair in Model.OrderByDescending(p => p.Key.AcilisTarihi))
+        {
+            <div class="list-group-item list-group-item-warning">
+                 @pair.Value
+            </div>
+        }
+    </div>
+}

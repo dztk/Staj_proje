@@ -1,0 +1,85 @@
+﻿@model Proje.Models.IsEmri
+
+@{
+    ViewData["Title"] = "Ekle";
+}
+
+<h1>Ekle</h1>
+
+<div>
+    <h4>İş Emri</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tip)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tip)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Arac)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Arac != null)
+            {
+                @($"{Model.Arac.Plaka} / {Model.Arac.KapiNo}")
+            }
+        </dd>
+
+        <dt class="col-sm-2">Durak</dt>
+        <dd class="col-sm-10">
+            @if (Model.Durak != null)
+            {
+                @($"{Model.Durak.Ad} / {Model.Durak.Kod}")
+            }
+        </dd>
+        @* <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Arac.Plaka)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Durak)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Durak.Ad)
+        </dd> *@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Aciklama)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Aciklama)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Durum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Durum)
+        </dd>
+        @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcilisTarihi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcilisTarihi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.KapanisTarihi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.KapanisTarihi)
+        </dd> *@
+        <dt class="col-sm-2">Açılış Tarihi</dt>
+        <dd class="col-sm-10">@Model.AcilisTarihi.ToString("dd.MM.yyyy")</dd>
+
+        <dt class="col-sm-2">Kapanış Tarihi</dt>
+        <dd class="col-sm-10">@Model.KapanisTarihi?.ToString("dd.MM.yyyy")</dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Personel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Personel.AdSoyad)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Güncelle</a> |
+    <a asp-action="Index">Listeye Dön</a>
+</div>

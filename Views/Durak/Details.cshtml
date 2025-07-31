@@ -1,0 +1,14 @@
+﻿@model Proje.Models.Durak
+
+
+<h2>Durak Detayı</h2>
+
+<div>
+    <p><strong>Ad:</strong> @Model.Ad</p>
+    <p><strong>Kod:</strong> @Model.Kod</p>
+    <p><strong>Enlem:</strong> @Model.KonumBilgi?.Enlem</p>
+    <p><strong>Boylam:</strong> @Model.KonumBilgi?.Boylam</p>
+</div>
+
+<a asp-action="Index">Geri</a>
+

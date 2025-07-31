@@ -1,0 +1,32 @@
+﻿@model Proje.Models.Parca
+
+@{
+    ViewData["Title"] = "Detaylar";
+}
+
+<h1>Detaylar</h1>
+
+<div>
+    <h4>Parca</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ad)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ad)
+        </dd>
+        <dt class="col-sm-2">Stok</dt>
+        <dd class="col-sm-10">@Model.Stok</dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BirimFiyat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BirimFiyat)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Güncelle</a> |
+    <a asp-action="Index">Listeye Dön</a>
+</div>

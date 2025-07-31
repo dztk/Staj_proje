@@ -1,0 +1,166 @@
+﻿@using Proje.Enums
+@model IEnumerable<Proje.Models.IsEmri>
+
+@{
+    ViewData["Title"] = "Görevler";
+}
+
+<h2 style="color: #0A4D8C;">İş Emirleri</h2>
+
+@if (!User.IsInRole("Teknisyen"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-light border border-success" style="color: #2ecc71; font-weight: bold;">
+            <i class="bi bi-plus-lg" style="font-weight: bold; color: #2ecc71;"></i> EKLE
+        </a>
+    </p>
+
+}
+<table class="display table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Arac)</th>
+            <th>@Html.DisplayNameFor(model => model.Durak)</th>
+            <th>@Html.DisplayNameFor(model => model.Durum)</th>
+            <th>@Html.DisplayNameFor(model => model.AcilisTarihi)</th>
+            <th>@Html.DisplayNameFor(model => model.KapanisTarihi)</th>
+            <th>@Html.DisplayNameFor(model => model.Personel)</th>
+            <th>Kapanış Raporu</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @(item.Arac != null ? $"{item.Arac.Plaka} / {item.Arac.KapiNo}" : "")
+                </td>
+                <td>
+                    @(item.Durak != null ? $"{item.Durak.Ad} / {item.Durak.Kod}" : "")
+                </td>
+                <td style="text-align: center; font-weight: bold;">
+                    @if (item.Durum == IsEmriDurumu.Acik)
+                    {
+                       
+                        <span style="color: red;">AÇIK</span>
+                    }
+                    else if (item.Durum == IsEmriDurumu.Bekleme)
+                    {
+                       
+                        <span style="color: orange;">BEKLEMEDE</span>
+
+                    }
+                    else if (item.Durum == IsEmriDurumu.Devam)
+                    {
+                      
+                        <span style="color: orange;">DEVAM</span>
+                    }
+                    else if (item.Durum == IsEmriDurumu.Kapali)
+                    {
+                       
+                        <span style="color: green;">KAPALI</span>
+                    }
+                    else
+                    {
+                        @item.Durum
+                    }
+                </td>
+              
+                <td> 
+                    @item.AcilisTarihi.ToString("dd.MM.yyyy")
+                </td>
+                <td>
+                    @(item.KapanisTarihi.HasValue? item.KapanisTarihi.Value.ToString("dd.MM.yyyy") : "")
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Personel.AdSoyad)
+                </td>
+
+               
+                <td class="text-center" style="min-width: 140px;">
+                    <div class="d-flex justify-content-center gap-3">
+                        @* İndir ikonu sadece Kapalı ise görünür *@
+                        @if (item.Durum == IsEmriDurumu.Kapali)
+                        {
+                            <a asp-controller="Rapor" asp-action="KapanisRaporu" asp-route-id="@item.Id"
+                               title="Kapanış Raporunu İndir" style="color: #0d6efd; font-size: 20px;">
+                                <i class="bi bi-download"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <span style="width: 20px; display: inline-block;"></span>
+                        }
+
+                        @* Yükle ikonu sadece Şef ve Kapalı ise görünür *@
+                        @if (item.Durum == IsEmriDurumu.Kapali && User.IsInRole("Şef"))
+                        {
+                            <a asp-action="ImzaPdfYukle" asp-route-id="@item.Id" title="İmzalı PDF Yükle"
+                               style="color: #198754; font-size: 20px;">
+                                <i class="bi bi-upload"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <span style="width: 20px; display: inline-block;"></span>
+                        }
+
+                        @* Göz ikonu sadece PDF varsa görünür *@
+                        @if (item.Durum == IsEmriDurumu.Kapali && !string.IsNullOrEmpty(item.ImzaPdf))
+                        {
+                            <a href="@item.ImzaPdf" target="_blank" title="Yüklenen PDF'i Görüntüle"
+                               style="color: #ffc107; font-size: 20px;">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <span style="width: 20px; display: inline-block;"></span>
+                        }
+                    </div>
+                </td>
+
+
+
+
+
+                <!-- GRUP 2 - HER ZAMAN GÖRÜNÜR -->
+                <td class="text-end">
+                    <div class="d-inline-flex align-items-center justify-content-end">
+                        @if (item.Durum != IsEmriDurumu.Kapali && !(User.IsInRole("Teknisyen") && item.Durum == IsEmriDurumu.Devam))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Düzenle"
+                               style="color: #0d6efd; font-size: 18px; margin-left: 8px;">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" title="Detaylar"
+                           style="color: #0d6efd; font-size: 18px; margin-left: 8px;">
+                            <i class="bi bi-three-dots"></i>
+                        </a>
+
+                        @if (User.IsInRole("Şef"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" title="Sil"
+                               style="color: red; font-size: 18px; margin-left: 8px;">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        }
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+@await Html.PartialAsync("_DataTablesInit")
+}
+
+
+
+
+
+

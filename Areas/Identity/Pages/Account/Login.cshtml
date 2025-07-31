@@ -1,0 +1,42 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+}
+ <div asp-validation-summary="All" class="text-danger mb-3"></div>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="w-100" style="max-width: 500px;">
+        <h2 class="text-center mb-4">Giriş Yap</h2>
+
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div class="form-floating mb-4">
+                <input asp-for="Input.Email" class="form-control form-control-lg" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input asp-for="Input.Password" class="form-control form-control-lg" autocomplete="current-password" aria-required="true" />
+                <label asp-for="Input.Password">Şifre</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <div class="form-check">
+                    <input asp-for="Input.RememberMe" class="form-check-input" />
+                    <label asp-for="Input.RememberMe" class="form-check-label">Beni Hatırla</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn custom-btn-red btn-lg w-100">Giriş Yap</button>
+        </form>
+
+        @* <div class="mt-4 text-center">
+            <p>Hesabınız yok mu? <a asp-page="./Register">Kayıt olun</a></p>
+        </div> *@
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

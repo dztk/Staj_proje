@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Proje.Models.Personel>
+
+@{
+    ViewData["Title"] = "Personeller";
+}
+
+<h2 style="color: #0A4D8C;">Personeller</h2>
+
+
+@if (!User.IsInRole("Teknisyen"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-light border border-success" style="color: #2ecc71; font-weight: bold;">
+            <i class="bi bi-plus-lg" style="font-weight: bold; color: #2ecc71;"></i> EKLE
+        </a>
+    </p>
+
+}
+
+
+<table class="table display">
+    
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AdSoyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unvan)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdSoyad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unvan)
+            </td>
+           
+                <td class="text-end">
+                    <div class="d-inline-flex align-items-center justify-content-end">
+                        @if (User.IsInRole("Şef"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Düzenle"
+                               style="color: #0d6efd; font-size: 18px; margin-left: 8px;">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Id" title="Detaylar"
+                               style="color: #0d6efd; font-size: 18px; margin-left: 8px;">
+                                <i class="bi bi-three-dots"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" title="Sil"
+                               style="color: red; font-size: 18px; margin-left: 8px;">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        }
+
+                    </div>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    @await Html.PartialAsync("_DataTablesInit")
+}
+

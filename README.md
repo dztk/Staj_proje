@@ -1,1 +1,1 @@
-.bak uzantılı dosya SQL Server'a yüklenmeli ve appsettings.json dosyasındaki Server=DESKTOP-XXXXXXX kısmı kendi bilgisayar adınıza göre güncellenmelidir.
+Otobüsler ve duraklar için arıza kayıtlarının tutulduğu, şeflerin teknisyenlere görev atayabildiği ve bakım süreçlerinin takip edilebildiği .NET MVC tabanlı bir web uygulaması. Ayrıca sistemde parça takibi ve detaylı raporlama paneli bulunmaktadır.
